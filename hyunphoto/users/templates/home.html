@@ -13,20 +13,6 @@
     {% if user.is_authenticated %}
     <p>You are signed in as {{user.email}}</p>
     <p>Your name is {{user.username}}</p>
-    <p>Your first_name is {{user.first_name}}</p>
-    <p>Your last_name is {{user.last_name}}</p>
-    <p>Since {{user.date_joined}}</p>
-
-    <!-- <h1>User Profile</h1>
-    <p>Email: {{ email }}</p>
-    <p>Username: {{ username }}</p>
-    <p>gender: {{ gender }}</p>
-    <p>birthday: {{ birthday }}</p>
-    <p>Since {{ date_joined }}</p>
-    <p>Secret {{ password }}</p>
-    <p>Gender {{ genders }}</p> -->
-
-
 
     <a href="logout">Logout</a>
     {% endif %}

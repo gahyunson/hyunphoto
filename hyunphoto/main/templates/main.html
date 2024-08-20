@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - {{ title }}</title>
+    <!-- Link to external CSS (if any) -->
+
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1>Welcome to the Main Page</h1>
+            {% if user.is_authenticated %}
+                <p>Hello, {{ user.username }}!</p>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'user' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'main' %}">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="{% url 'user-profile' %}">My Page</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container">
+            <h2>Main Content Area</h2>
+            <p>This is where the main content of the page will go.</p>
+            <!-- Example of dynamic content -->
+            <p>The current user is: {{ user.username }}</p>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Project. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="#">Twitter</a> |
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Link to external JavaScript (if any) -->
+
+</body>
+</html>

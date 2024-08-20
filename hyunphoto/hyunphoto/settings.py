@@ -34,7 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_ID = 2
+SITE_ID = 3
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,8 +55,9 @@ INSTALLED_APPS = [
     # 'dj_rest_auth',
     # 'dj_rest_auth.registration',
 
+    'main',
     'users',
-    'photo',
+    'photos',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -76,6 +77,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_STORE_TOKENS = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SOCIALACCOUNT_LOGIN_ON_GET = True
+# SOCIALACCOUNT_ADAPTER = 'users.adapters.UserCustomAdapter'
 
 # REST_USE_JWT = True
 AUTH_USER_MODEL = 'users.User'
