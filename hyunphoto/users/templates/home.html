@@ -10,6 +10,7 @@
     <h2>Google Login</h2>
     <a href="{% provider_login_url 'google' %}?next=/">Login with Google</a>
 
+
     {% if user.is_authenticated %}
     <p>You are signed in as {{user.email}}</p>
     <p>Your name is {{user.username}}</p>
