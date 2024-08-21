@@ -7,25 +7,22 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from allauth.socialaccount.models import SocialAccount
+from rest_framework import status
 
+class UserSigninview(APIView):
+    def get(self, request):
+        return render(request, 'home.html')
 
+usersigninview = UserSigninview.as_view()
 
-def home(request):
-    # user = request.user
-    user = {'user': request.user}
-    # context = {
-    #     'email': user.email,
-    #     'username': user.username,
-    #     'password': user.password,
-    # }
-    # print(context)
-    return render(request, 'home.html', user)
+class UserLogoutView(APIView):
+    def get(self, request):
+        logout(request)
+        return redirect('/')
+    
+userlogoutview = UserLogoutView.as_view()
 
-def logout_view(request):
-    logout(request)
-    return redirect('/')
-
-class UserProfileAPI(APIView):
+class UserProfileView(APIView):
     permission_classes = [AllowAny]
     # authentication_classes = []
 
@@ -39,11 +36,11 @@ class UserProfileAPI(APIView):
                 'username': request.user.username,
                 'address': request.user.address,
                 'address2': request.user.address2,
-                'city': request.user.city,
-                'company': request.user.company,
-                'nation': request.user.nation,
-                'phone': request.user.phone,
                 'postal': request.user.postal,
+                'city': request.user.city,
+                'nation': request.user.nation,
+                'company': request.user.company,
+                'phone': request.user.phone,
             }
         else:
             user_info = {
@@ -53,10 +50,20 @@ class UserProfileAPI(APIView):
     
     def put(self, request):
         user = request.user 
-        # print(user)
+        print(user)
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+    def delete(self, request):
+        user = request.user
+        try: 
+            user.delete()
+            return redirect('/')
+        except SocialAccount.DoesNotExist:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+userprofileview = UserProfileView.as_view()
 

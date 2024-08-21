@@ -18,11 +18,11 @@
             <p>username: {{ user_info.username }}</p>
             <p>address: {{ user_info.address }}</p>
             <p>address2: {{ user_info.address2 }}</p>
-            <p>city: {{ user_info.city }}</p>
-            <p>company: {{ user_info.company }}</p>
-            <p>nation: {{ user_info.nation }}</p>
-            <p>phone: {{ user_info.phone }}</p>
             <p>postal: {{ user_info.postal }}</p>
+            <p>city: {{ user_info.city }}</p>
+            <p>nation: {{ user_info.nation }}</p>
+            <p>company: {{ user_info.company }}</p>
+            <p>phone: {{ user_info.phone }}</p>
 
             <div>
                 <label for="email">Email:</label>
@@ -41,26 +41,31 @@
                 <input type="text" id="address2" name="address2" value="{{ user_info.address2 }}">
             </div>
             <div>
-                <label for="city">city:</label>
-                <input type="text" id="city" name="city" value="{{ user_info.city }}">
+                <label for="postal">postal:</label>
+                <input type="text" id="postal" name="postal" value="{{ user_info.postal }}">
             </div>
             <div>
-                <label for="company">Company:</label>
-                <input type="text" id="company" name="company" value="{{ user_info.company }}">
+                <label for="city">city:</label>
+                <input type="text" id="city" name="city" value="{{ user_info.city }}">
             </div>
             <div>
                 <label for="nation">Nation:</label>
                 <input type="text" id="nation" name="nation" value="{{ user_info.nation }}">
             </div>
             <div>
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" value="{{ user_info.company }}">
+            </div>
+            <div>
                 <label for="phone">phone:</label>
                 <input type="text" id="phone" name="phone" value="{{ user_info.phone }}">
             </div>
-            <div>
-                <label for="postal">postal:</label>
-                <input type="text" id="postal" name="postal" value="{{ user_info.postal }}">
-            </div>
             <button type="submit">Update Profile</button>
+        </form>
+        <form id="delete-form" action="{% url 'user-profile' %}" method="post" >
+            {% csrf_token %}
+            <input type="hidden" name="_method" value="DELETE"/>
+            <button type="submit">Delete Account</button>
         </form>
     {% endif %}
 
@@ -81,11 +86,11 @@
                     email: formData.get('email'),
                     address: formData.get('address'),
                     address2: formData.get('address2'),
+                    postal: formData.get('postal'),
                     city: formData.get('city'),
-                    company: formData.get('company'),
                     nation: formData.get('nation'),
+                    company: formData.get('company'),
                     phone: formData.get('phone'),
-                    postal: formData.get('postal')
                 })
             })
             .then(response => response.json())
@@ -98,6 +103,36 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('delete-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            
+            if (confirm('Are you sure you want to delete your account?')){
+                fetch(this.action, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Your account has been deleted.');
+                        window.location.href = '/';
+                    } else {
+                        return response.json().then(data => {
+                            alert('Failed to delete account: ' + (data.detail || 'Unknown error'));
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred, Please try again.');
+                })
+            }
+
         });
     </script>
 </body>
