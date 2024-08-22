@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+class Contact(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
+    message = models.TextField(max_length=1024, null=False, blank=False)
+
+    class Meta:
+        db_table = 'contact'

@@ -34,7 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_ID = 3
+SITE_ID = 4
 # Application definition
 
 INSTALLED_APPS = [
@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'main',
     'users',
     'photos',
+    'fandq',
+    'contact',
+    
 ]
 
 SOCIALACCOUNT_PROVIDERS = {

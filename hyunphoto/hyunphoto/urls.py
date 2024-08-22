@@ -24,5 +24,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('users.urls')),
 
-    path('api/photos/', include('photos.urls'))
+    path('api/photos/', include('photos.urls')),
+    path('api/contact/', include('contact.urls')),
+    path('api/fandq/', include('fandq.urls')),
 ]

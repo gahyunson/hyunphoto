@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Fandq, Category
 
-# Register your models here.
+
+admin.site.register(Fandq)
+admin.site.register(Category)

@@ -81,6 +81,23 @@
             font-size: 16px;
             line-height: 1.6;
         }
+
+        .guarantee, .shipping-info {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .guarantee h3, .shipping-info h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +111,7 @@
         
         <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
             {% for price in photo.price_set.all %}
-                <option value="{{ price.price }}" data-size="{{ price.size }}">size is {{ price.size }}</option>
+                <option value="{{ price.price }}" data-size="{{ price.size }}">Size: {{ price.size }}</option>
             {% endfor %}
         </select>
         
@@ -102,6 +119,18 @@
         
         <div class="photo-description">
             {{ photo.description }}
+        </div>
+
+        <!-- 100% Satisfaction Guarantee Section -->
+        <div class="guarantee">
+            <h3>100% Satisfaction Guarantee</h3>
+            <p>We stand behind the quality of our artwork with a 100% Satisfaction Guarantee. If you're not completely happy with your purchase, simply return it for a full refund, including paid return shipping.</p>
+        </div>
+
+        <!-- Shipping Information Section -->
+        <div class="shipping-info">
+            <h3>Shipping Information</h3>
+            <p>All applicable taxes will be calculated at checkout. Your print will be carefully prepared and shipped within 1-2 weeks of your order. Each piece undergoes a meticulous inspection by the artist to ensure the highest quality. No signature is required upon delivery.</p>
         </div>
     </div>
 

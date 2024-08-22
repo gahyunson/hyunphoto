@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from .models import Fandq
 
-# Create your views here.
+def fandq(request):
+    fandq = Fandq.objects.all()
+    context = {
+        'fandq': fandq
+    }
+
+    return render(request, 'fandq.html', context)
+
