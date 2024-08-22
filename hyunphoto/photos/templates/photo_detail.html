@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Product Page</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .photo-image {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .photo-price {
+            font-size: 24px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .select-size {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 250px;
+        }
+
+        .add-to-cart {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #000;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #333;
+        }
+
+        .photo-description {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <h1><a href="{% url 'main' %}">Home</a></h1>
+    </div>
+    <div class="container">
+        <img src="{% static photo.photo_path %}" alt="{{ photo.title }}" class="photo-image">
+        <div class="photo-title">{{ photo.title }}</div>
+        <div class="photo-price">${{ photo.price_set.first.price }}</div>
+        
+        <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
+            {% for price in photo.price_set.all %}
+                <option value="{{ price.price }}" data-size="{{ price.size }}">size is {{ price.size }}</option>
+            {% endfor %}
+        </select>
+        
+        <a href="#" class="add-to-cart">Add to Cart</a>
+        
+        <div class="photo-description">
+            {{ photo.description }}
+        </div>
+    </div>
+
+    <script>
+        function updatePrice(photoId) {
+            var selectElement = document.getElementById('size-select-' + photoId);
+            var selectedPrice = selectElement.options[selectElement.selectedIndex].value;
+            var priceDisplay = document.querySelector('.photo-price');
+            
+            priceDisplay.textContent = '$' + selectedPrice;
+        }
+    </script>
+</body>
+</html>
