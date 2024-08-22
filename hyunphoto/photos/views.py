@@ -26,12 +26,18 @@ class PhotoDetailView(APIView):
     def get(self, request, *args, **kwargs):
         photo_id = self.kwargs['photo_id']
         photo = Photo.objects.get(id=photo_id)
-        # price = Price.objects.filter(photo_id=photo_id)
         price = photo.price_set.all()
         context = {
             'photo': photo,
             'price': price
         }
         return render(request, 'photo_detail.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        photo_id = self.kwargs['photo_id']
+        photo = Photo.objects.get(id=photo_id)
+        price = photo.price_set.all()
+        print(photo_id, photo, price)
+
 
 photodetailview = PhotoDetailView.as_view()

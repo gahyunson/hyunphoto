@@ -6,23 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            background-color: #fafafa;
             margin: 0;
             padding: 20px;
+            color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
         h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 300;
             text-align: center;
             color: #333;
         }
@@ -40,50 +48,52 @@
 
         label {
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 400;
+            font-size: 14px;
+            color: #333;
         }
 
         textarea {
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             border-radius: 4px;
             border: 1px solid #ccc;
             resize: vertical;
             min-height: 100px;
+            font-family: 'Roboto', sans-serif;
         }
 
         button {
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
-            color: #fff;
-            background-color: #007BFF;
+            color: #ffffff;
+            background-color: #0056b3;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            text-align: center;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #003d80;
+        }
+
+        .message, .error {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 16px;
         }
 
         .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
             background-color: #e1f5fe;
             color: #0277bd;
-            font-size: 16px;
         }
 
         .error {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
             background-color: #ffebee;
             color: #c62828;
-            font-size: 16px;
         }
     </style>
 </head>

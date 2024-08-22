@@ -93,7 +93,8 @@
 <body>
     <div class="container">
         <h1>{{ user.username }}'s Cart</h1>
-
+        <a href="{% url 'main' %}">Home</a>
+        
         {% for cart_item in cart %}
             <div class="cart-item">
                 <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">

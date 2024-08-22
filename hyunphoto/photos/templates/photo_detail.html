@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Product Page</title>
     <style>
+        /* General Styles */
         body {
-            font-family: 'Georgia', serif;
-            color: #333;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #fafafa;
+            color: #444;
+            line-height: 1.6;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,47 +21,56 @@
             flex-direction: column;
         }
 
+        /* Container */
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             background-color: #fff;
-            padding: 40px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            border-radius: 8px;
         }
 
+        /* Photo Image */
         .photo-image {
             width: 100%;
-            max-width: 700px;
+            max-width: 600px;
             margin: 0 auto 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
+        /* Photo Title */
         .photo-title {
-            font-size: 36px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 300;
             margin: 20px 0;
+            color: #333;
         }
 
+        /* Photo Price */
         .photo-price {
-            font-size: 24px;
+            font-size: 20px;
             color: #777;
             margin-bottom: 20px;
         }
 
+        /* Select Size */
         .select-size {
             margin: 20px 0;
-            padding: 10px;
-            font-size: 18px;
+            padding: 8px;
+            font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            width: 250px;
+            width: 220px;
         }
 
+        /* Add to Cart Button */
         .add-to-cart {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #000;
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #0056b3;
             color: #fff;
             text-transform: uppercase;
             text-decoration: none;
@@ -69,34 +80,98 @@
         }
 
         .add-to-cart:hover {
-            background-color: #333;
+            background-color: #003d80;
         }
 
+        /* Photo Description */
         .photo-description {
             margin-top: 30px;
             text-align: left;
-            max-width: 700px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
+            color: #555;
         }
 
+        /* Guarantee and Shipping Info */
         .guarantee, .shipping-info {
             margin-top: 40px;
             text-align: left;
-            max-width: 700px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
+            color: #555;
         }
 
         .guarantee h3, .shipping-info h3 {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 400;
             margin-bottom: 10px;
-            color: #007BFF;
+            color: #0056b3;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #333;
+            font-weight: 300;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #0056b3;
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .menu-bar h1 {
+            font-size: 2em;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        .menu-bar a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 400;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease-in;
+        }
+
+        .menu-bar a:hover {
+            border-color: #0056b3;
         }
     </style>
 </head>
@@ -104,9 +179,24 @@
     <div class="menu-bar">
         <h1><a href="{% url 'main' %}">Home</a></h1>
     </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'main' %}">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'photos' %}">Photos</a></li>
+            <li><a href="{% url 'user-profile' %}">My Page</a></li>
+            <li><a href="{% url 'fandq' %}">F&Qs</a></li>
+            <li><a href="{% url 'cart' %}">Cart</a></li>
+        </ul>
+    </nav>
     <div class="container">
         <img src="{% static photo.photo_path %}" alt="{{ photo.title }}" class="photo-image">
         <div class="photo-title">{{ photo.title }}</div>
+        <div class="photo-description">
+            {{ photo.description }}
+        </div>
         <div class="photo-price">${{ photo.price_set.first.price }}</div>
         
         <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
@@ -117,9 +207,6 @@
         
         <a href="#" class="add-to-cart">Add to Cart</a>
         
-        <div class="photo-description">
-            {{ photo.description }}
-        </div>
 
         <!-- 100% Satisfaction Guarantee Section -->
         <div class="guarantee">
