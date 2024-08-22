@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'photos',
     'fandq',
     'contact',
+    'cart',
     
 ]
 

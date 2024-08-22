@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .cart-item-details div {
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .total p {
+            margin: 5px 0;
+        }
+
+        .checkout-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .checkout-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ user.username }}'s Cart</h1>
+
+        {% for cart_item in cart %}
+            <div class="cart-item">
+                <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
+                <div class="cart-item-details">
+                    <div><strong>{{ cart_item.photo.title }}</strong></div>
+                    <div>Size: {{ cart_item.price.size }}</div>
+                    <div>Price: ${{ cart_item.price.price }}</div>
+                    <div>Quantity: {{ cart_item.quantity }} pcs</div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="total">
+            <p>Total Quantity: {{ total.total_quantity }} pcs</p>
+            <p>Total Price: ${{ total.total_price }}</p>
+        </div>
+
+        <button class="checkout-button">Proceed to Checkout</button>
+    </div>
+</body>
+</html>
