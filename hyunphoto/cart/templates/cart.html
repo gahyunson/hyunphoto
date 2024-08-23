@@ -96,6 +96,9 @@
         <a href="{% url 'main' %}">Home</a>
         
         {% for cart_item in cart %}
+            <!-- <div class="cart-check">
+                <input type="checkbox" id="cart-check" name="cart-check"/>
+            </div> -->
             <div class="cart-item">
                 <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
                 <div class="cart-item-details">
@@ -104,6 +107,15 @@
                     <div>Price: ${{ cart_item.price.price }}</div>
                     <div>Quantity: {{ cart_item.quantity }} pcs</div>
                 </div>
+            </div>
+            <div class="cart-modify">
+                <form id="cart-form-{{ cart_item.id }}" action="{% url 'cart' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
+                    <input type="hidden" name="action_type" id="action_type-{{ cart_item.id }}" value="">
+                    <input type="button" value="modify" onclick="setActionAndSubmit({{ cart_item.id }}, 'modify')"/>
+                    <input type="button" value="delete" onclick="setActionAndSubmit({{ cart_item.id }}, 'delete')"/>
+                </form>
             </div>
         {% endfor %}
 
@@ -114,5 +126,13 @@
 
         <button class="checkout-button">Proceed to Checkout</button>
     </div>
+    <script>
+        function setActionAndSubmit(cartItemId, actionType) {
+            var actionInput = document.getElementById('action_type-' + cartItemId);
+            actionInput.value = actionType;
+            document.getElementById('cart-form-' + cartItemId).submit();
+        }
+    </script>
+    
 </body>
 </html>
