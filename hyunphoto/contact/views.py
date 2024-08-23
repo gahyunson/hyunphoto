@@ -17,6 +17,6 @@ class ContactView(APIView):
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=200)
-        return Response(serializer.error, status=400)
+        return Response(status=400)
     
 contactview = ContactView.as_view()
