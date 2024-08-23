@@ -73,6 +73,9 @@
         nav ul li a:hover {
             color: #109571;
         }
+        .bold-link {
+            font-weight: bold;
+        }
 
         /* Gallery Styles */
         .gallery-container {
@@ -142,7 +145,7 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
-            <li><a href="{% url 'photos' %}">Photos</a></li>
+            <li><a href="{% url 'photos' %}" class="bold-link">Photos</a></li>
             <li><a href="{% url 'user-profile' %}">My Page</a></li>
             <li><a href="{% url 'fandq' %}">F&Qs</a></li>
             <li><a href="{% url 'cart' %}">Cart</a></li>

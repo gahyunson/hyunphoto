@@ -123,6 +123,10 @@
             text-align: center;
             color: #555;
         }
+        .bold-link {
+            font-weight: bold;
+        }
+
 
         /* Footer Styles */
         footer {
@@ -168,7 +172,7 @@
     <!-- Navigation Section -->
     <nav>
         <ul>
-            <li><a href="{% url 'main' %}">Home</a></li>
+            <li><a href="{% url 'main' %}" class="bold-link">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
