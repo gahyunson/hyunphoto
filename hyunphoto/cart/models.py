@@ -5,6 +5,7 @@ class Cart(models.Model):
     photo = models.ForeignKey('photos.Photo', on_delete=models.DO_NOTHING, null=False)
     price = models.ForeignKey('photos.Price', on_delete=models.DO_NOTHING, null=False)
     quantity = models.IntegerField(default=1, null=False, blank=False)
+    is_checked = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'cart'

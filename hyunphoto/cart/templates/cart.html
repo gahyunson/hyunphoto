@@ -101,21 +101,21 @@
                 <input type="checkbox" id="cart-check" name="cart-check"/>
             </div> -->
             <div class="cart-item">
-                <input type="checkbox" id="checkbox" name="checkbox" />
+                <input type="checkbox" id="checkbox" name="checkbox[]" />
                 <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
                 <div class="cart-item-details">
                     <div><strong>{{ cart_item.photo.title }}</strong></div>
                     <div>Size: {{ cart_item.price.size }}</div>
                     <div>Price: ${{ cart_item.price.price }}</div>
-                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}"/>pcs</div>
+                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}" onchange="updateQuantity({{ cart_item.id }}, value)"/>pcs</div>
                 </div>
             </div>
             <div class="cart-modify">
                 <form id="cart-form-{{ cart_item.id }}">
                     {% csrf_token %}
                     <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
-                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, 'put')"/>
-                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, 'delete')"/>
+                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, {{ cart_item.quantity }}, 'put')"/>
+                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, {{ cart_item.quantity }}, 'delete')"/>
                 </form>
             </div>
         {% endfor %}
@@ -128,8 +128,14 @@
         <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
     </div>
     <script>
+        var updateQuantities = {};
+        function updateQuantity(cartItemId, newQuantity){
+            updateQuantities[cartItemId] = newQuantity;
+        }
+
         var cboxAll = document.getElementById('checkbox-all');
         var cbox = document.getElementById('checkbox');
+        var boxes = $(":checkbox:checked");
 
         cboxAll.addEventListener('click', function(){
             if (cbox.checked==false){
@@ -141,12 +147,12 @@
 
 
 
-        function submitForm(cartItemId, method) {
+        function submitForm(cartItemId, quantity, method) {
             var form = document.getElementById('cart-form-' + cartItemId);
             var formData = new FormData(form);
             var csrfToken = formData.get('csrfmiddlewaretoken');
-            var quantity = document.getElementsByName('quantity')[0].value;
-            var url = "{% url 'cart' %}"            
+            var url = "{% url 'cart' %}"      
+            var quantity = updateQuantities[cartItemId]      
 
             fetch(url, {
                 method: method.toUpperCase(),
@@ -157,7 +163,7 @@
                 },
                 body: JSON.stringify({
                     cart_item: formData.get('cart_item'),
-                    quantity: quantity
+                    quantity: quantity,
                 })
             })
             .then(response => {
