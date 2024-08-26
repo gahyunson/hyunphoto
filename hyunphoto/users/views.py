@@ -80,7 +80,6 @@ class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print(request)
         social_account = SocialAccount.objects.filter(user=request.user, provider='google').first()
 
         if social_account:
@@ -97,7 +96,7 @@ class UserProfileView(APIView):
             }
         else:
             user_info = {
-                'message': 'not found'
+                'message': 'Login Required'
             }
         return render(request, 'profile.html', {'user_info': user_info})
     

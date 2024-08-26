@@ -105,20 +105,19 @@
                     <div><strong>{{ cart_item.photo.title }}</strong></div>
                     <div>Size: {{ cart_item.price.size }}</div>
                     <div>Price: ${{ cart_item.price.price }}</div>
-                    <div>Quantity: {{ cart_item.quantity }} pcs</div>
+                    <!-- <div>Quantity: {{ cart_item.quantity }} pcs</div> -->
+                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}"/>pcs</div>
                 </div>
             </div>
             <div class="cart-modify">
-                <form id="cart-form-{{ cart_item.id }}" action="{% url 'cart' %}" method="POST">
+                <form id="cart-form-{{ cart_item.id }}">
                     {% csrf_token %}
                     <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
-                    <input type="hidden" name="action_type" id="action_type-{{ cart_item.id }}" value="">
-                    <input type="button" value="modify" onclick="setActionAndSubmit({{ cart_item.id }}, 'modify')"/>
-                    <input type="button" value="delete" onclick="setActionAndSubmit({{ cart_item.id }}, 'delete')"/>
+                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, 'put')"/>
+                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, 'delete')"/>
                 </form>
             </div>
         {% endfor %}
-
         <div class="total">
             <p>Total Quantity: {{ total.total_quantity }} pcs</p>
             <p>Total Price: ${{ total.total_price }}</p>
@@ -127,10 +126,33 @@
         <button class="checkout-button">Proceed to Checkout</button>
     </div>
     <script>
-        function setActionAndSubmit(cartItemId, actionType) {
-            var actionInput = document.getElementById('action_type-' + cartItemId);
-            actionInput.value = actionType;
-            document.getElementById('cart-form-' + cartItemId).submit();
+        function submitForm(cartItemId, method) {
+            var form = document.getElementById('cart-form-' + cartItemId);
+            var formData = new FormData(form);
+            var csrfToken = formData.get('csrfmiddlewaretoken');
+            var quantity = document.getElementsByName('quantity')[0].value;
+            var url = "{% url 'cart' %}"            
+
+            fetch(url, {
+                method: method.toUpperCase(),
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cart_item: formData.get('cart_item'),
+                    quantity: quantity
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('An error occurred.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
     </script>
     

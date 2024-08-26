@@ -36,20 +36,39 @@ class CartView(APIView):
         }
         return render(request, 'cart.html', context)
     
-    def post(self, request, *args, **kwargs):
-        action_type = request.POST.get('action_type')
-        cart_item_id = request.POST.get('cart_item')
+    # def post(self, request, *args, **kwargs):
+    #     action_type = request.data.get('action_type')
+    #     cart_item_id = request.data.get('cart_item')
 
-        if action_type == 'delete':
-            cart_item = get_object_or_404(Cart, id=cart_item_id, user=request.user)
-            cart_item.delete()
-            return redirect('cart')
+    #     if action_type == 'delete':
+    #         cart_item = get_object_or_404(Cart, id=cart_item_id, user=request.user)
+    #         cart_item.delete()
+    #         return redirect('cart')
         
-        # elif action_type == 'modify':
-        #     new_quantity = request.POST.get('quantity', 1)
-        #     Cart.objects.filter(id=cart_item_id, user=request.user).update(quantity=new_quantity)
-        #     return redirect('cart')
+    #     # elif action_type == 'modify':
+    #     #     new_quantity = request.POST.get('quantity', 1)
+    #     #     Cart.objects.filter(id=cart_item_id, user=request.user).update(quantity=new_quantity)
+    #     #     return redirect('cart')
         
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    #     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        cart_item_id = request.data.get('cart_item')
+        new_quantity = request.data.get('quantity')
+        print('cart_item_id, new_quantity', cart_item_id, new_quantity)
+        if not cart_item_id or not new_quantity:
+            return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        Cart.objects.filter(id=cart_item_id).update(quantity = new_quantity)
+        return redirect('cart')
+    
+    def delete(self, request, *args, **kwargs):
+        cart_item_id = request.data.get('cart_item')
+        if not cart_item_id:
+            return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cart_item = get_object_or_404(Cart, id=cart_item_id, user=request.user)
+        cart_item.delete()
+        return redirect('cart')
     
 cartview = CartView.as_view()

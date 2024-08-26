@@ -19,9 +19,10 @@ def home(request):
     return render(request, 'photos.html', context)
 
 class PhotoDetailView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
+        self.methods=('get',)
+        self.permission_classes = (AllowAny,)
         photo_id = self.kwargs['photo_id']
         photo = Photo.objects.get(id=photo_id)
         price = photo.price_set.all()
@@ -33,6 +34,7 @@ class PhotoDetailView(APIView):
         return render(request, 'photo_detail.html', context)
     
     def post(self, request, *args, **kwargs):
+        self.permission_classes = [IsAuthenticated, ]
         '''
         post method -> add to cart
         if already in cart -> increase quantity
@@ -50,20 +52,19 @@ class PhotoDetailView(APIView):
         if cart:
             cart.update(quantity=F('quantity')+1)
             return render(request, 'cart.html')
+        else:
+            context = {
+                'user': user,
+                'photo': photo_id,
+                'price': price_id,
+                'quantity': quantity
+            }
 
-        context = {
-            'user': user,
-            'photo': photo_id,
-            'price': price_id,
-            'quantity': quantity
-        }
-
-        serializer = CartSerializer(data=context)
-        if serializer.is_valid():
-            serializer.save()
-            # return Response({'message': 'Successful add photo!'})
-            return redirect('cart')
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            serializer = CartSerializer(data=context)
+            if serializer.is_valid():
+                serializer.save()
+                return redirect('cart')
+        return Response({'message': 'Login required'}, status=status.HTTP_400_BAD_REQUEST)
         
 
 
