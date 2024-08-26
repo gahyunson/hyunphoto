@@ -92,31 +92,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>{{ user.username }}'s Cart</h1>
+        <h1>{{ user.username }}'s Order List</h1>
         <a href="{% url 'main' %}">Home</a>
+        <a href="{% url 'cart' %}">Cart</a>
         <div id="cart">
-        <input type="checkbox" id="checkbox-all" name="checkbox-all" />
         {% for cart_item in cart %}
             <!-- <div class="cart-check">
                 <input type="checkbox" id="cart-check" name="cart-check"/>
             </div> -->
             <div class="cart-item">
-                <input type="checkbox" id="checkbox" name="checkbox" />
                 <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
                 <div class="cart-item-details">
                     <div><strong>{{ cart_item.photo.title }}</strong></div>
                     <div>Size: {{ cart_item.price.size }}</div>
                     <div>Price: ${{ cart_item.price.price }}</div>
-                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}"/>pcs</div>
+                    <div>{{ cart_item.quantity }}pcs</div>
                 </div>
-            </div>
-            <div class="cart-modify">
-                <form id="cart-form-{{ cart_item.id }}">
-                    {% csrf_token %}
-                    <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
-                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, 'put')"/>
-                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, 'delete')"/>
-                </form>
             </div>
         {% endfor %}
         </div>
@@ -125,50 +116,37 @@
             <p>Total Price: ${{ total.total_price }}</p>
         </div>
 
-        <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
+        <button class="checkout-button">Proceed to Checkout</button>
     </div>
     <script>
-        var cboxAll = document.getElementById('checkbox-all');
-        var cbox = document.getElementById('checkbox');
+        // function submitForm(cartItemId, method) {
+        //     var form = document.getElementById('cart-form-' + cartItemId);
+        //     var formData = new FormData(form);
+        //     var csrfToken = formData.get('csrfmiddlewaretoken');
+        //     var quantity = document.getElementsByName('quantity')[0].value;
+        //     var url = "{% url 'cart' %}"            
 
-        cboxAll.addEventListener('click', function(){
-            if (cbox.checked==false){
-                cbox.checked = true;
-            } else {
-                cbox.checked = false;
-            }
-        })
-
-
-
-        function submitForm(cartItemId, method) {
-            var form = document.getElementById('cart-form-' + cartItemId);
-            var formData = new FormData(form);
-            var csrfToken = formData.get('csrfmiddlewaretoken');
-            var quantity = document.getElementsByName('quantity')[0].value;
-            var url = "{% url 'cart' %}"            
-
-            fetch(url, {
-                method: method.toUpperCase(),
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cart_item: formData.get('cart_item'),
-                    quantity: quantity
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    location.reload();
-                } else {
-                    alert('An error occurred.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
+        //     fetch(url, {
+        //         method: method.toUpperCase(),
+        //         headers: {
+        //             'X-CSRFToken': csrfToken,
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             cart_item: formData.get('cart_item'),
+        //             quantity: quantity
+        //         })
+        //     })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             location.reload();
+        //         } else {
+        //             alert('An error occurred.');
+        //         }
+        //     })
+        //     .catch(error => console.error('Error:', error));
+        // }
     </script>
     
 </body>

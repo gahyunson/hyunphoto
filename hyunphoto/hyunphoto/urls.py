@@ -26,6 +26,7 @@ urlpatterns = [
 
     path('api/photos/', include('photos.urls')),
     path('api/cart/', include('cart.urls')),
+    path('api/order/', include('order.urls')),
     path('api/contact/', include('contact.urls')),
     path('api/fandq/', include('fandq.urls')),
 ]
