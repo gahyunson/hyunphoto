@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     # 'dj_rest_auth',
     # 'dj_rest_auth.registration',
+    'paypal.standard.ipn',
 
     'main',
     'users',
@@ -181,3 +182,6 @@ AUTHENTICATION_BACKENDS = ( # *
 
 LOGIN_REDIRECT_URL = "/" # *
 LOGOUT_REDIRECT_URL = "/" # *
+
+PAYPAL_RECEIVER_EMAIL = 'gahyun.son6@gmail.com'
+PAYPAL_TEST = True

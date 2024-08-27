@@ -11,6 +11,7 @@ from .serializers import PhotoSerializer, PriceSerializer
 from cart.serializers import CartSerializer
 from django.db.models import F
 
+
 def home(request):
     photos = Photo.objects.all()
     context = {
@@ -21,12 +22,13 @@ def home(request):
 class PhotoDetailView(APIView):
 
     def get(self, request, *args, **kwargs):
+        print(request.data)
         self.methods=('get',)
         self.permission_classes = (AllowAny,)
         photo_id = self.kwargs['photo_id']
         photo = Photo.objects.get(id=photo_id)
         price = photo.price_set.all()
-
+        print(price)
         context = {
             'photo': photo,
             'price': price

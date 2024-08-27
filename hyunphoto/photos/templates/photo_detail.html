@@ -197,11 +197,11 @@
         <div class="photo-description">
             {{ photo.description }}
         </div>
-        <div class="photo-price">${{ photo.price_set.first.price }}</div>
+        <div class="photo-price-{{ photo.id }}">${{ photo.price_set.first.price }}</div>
         
         <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
             {% for price in photo.price_set.all %}
-                <option value="{{ price.price }}" data-size="{{ price.size }}">Size: {{ price.size }}</option>
+                <option value="{{ price.price }}" data-size="{{ price.size }}" data-price-id="{{ price.id }}">Size: {{ price.size }}</option>
             {% endfor %}
         </select>
         
@@ -232,12 +232,15 @@
     <script>
         function updatePrice(photoId) {
             var selectElement = document.getElementById('size-select-' + photoId);
-            var selectedPrice = selectElement.options[selectElement.selectedIndex].value;
-            var priceDisplay = document.getElementById('price-display-' + photoId);
-            var hiddenPriceInput = document.getElementById('price_id-' + photoId);
-            
-            priceDisplay.textContent = '$' + selectedPrice;
-            hiddenPriceInput.value = selectElement.value;
+            var selectedOption = selectElement.options[selectElement.selectedIndex]
+            var selectedPrice = selectedOption.value;
+            var selectedPriceId = selectedOption.getAttribute('data-price-id');
+
+            var priceElement = document.getElementById('photo-price'+photoId);
+            priceElement.textContent = '$' + selectedPrice;
+
+            var priceIdInput = document.getElementById('price_id-'+photoId);
+            priceIdInput.value = selectedPriceId;
         }
 
         document.getElementById('add-to-cart').addEventListener('submit', function(event) {

@@ -29,4 +29,6 @@ urlpatterns = [
     path('api/order/', include('order.urls')),
     path('api/contact/', include('contact.urls')),
     path('api/fandq/', include('fandq.urls')),
+
+    path('paypal/', include('paypal.standard.ipn.urls')),
 ]

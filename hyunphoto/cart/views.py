@@ -10,9 +10,8 @@ from photos.models import Price
 class CartView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get_total(self, request):
-        cart = Cart.objects.filter(user=request.user)
-
+    @staticmethod
+    def get_total(cart):
         total_price = 0
         total_quantity = 0
         for c in cart:
@@ -28,7 +27,7 @@ class CartView(APIView):
 
     def get(self, request, *args, **kwargs):
         cart = Cart.objects.filter(user=request.user)
-        total = self.get_total(self.request)
+        total = self.get_total(cart)
         context = {
             'user': request.user,
             'cart': cart,
