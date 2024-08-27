@@ -88,6 +88,8 @@
         .checkout-button:hover {
             background-color: #0056b3;
         }
+
+
     </style>
 </head>
 <body>
@@ -95,27 +97,22 @@
         <h1>{{ user.username }}'s Cart</h1>
         <a href="{% url 'main' %}">Home</a>
         <div id="cart">
-        <input type="checkbox" id="checkbox-all" name="checkbox-all" />
         {% for cart_item in cart %}
-            <!-- <div class="cart-check">
-                <input type="checkbox" id="cart-check" name="cart-check"/>
-            </div> -->
             <div class="cart-item">
-                <input type="checkbox" id="checkbox" name="checkbox[]" />
                 <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
                 <div class="cart-item-details">
                     <div><strong>{{ cart_item.photo.title }}</strong></div>
                     <div>Size: {{ cart_item.price.size }}</div>
                     <div>Price: ${{ cart_item.price.price }}</div>
-                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}" onchange="updateQuantity({{ cart_item.id }}, value)"/>pcs</div>
+                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}" onchange="updateQuantity({{ cart_item.id }}, this.value)"/>pcs</div>
                 </div>
             </div>
             <div class="cart-modify">
                 <form id="cart-form-{{ cart_item.id }}">
                     {% csrf_token %}
                     <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
-                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, {{ cart_item.quantity }}, 'put')"/>
-                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, {{ cart_item.quantity }}, 'delete')"/>
+                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, method='put')"/>
+                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, method='delete')"/>
                 </form>
             </div>
         {% endfor %}
@@ -133,26 +130,12 @@
             updateQuantities[cartItemId] = newQuantity;
         }
 
-        var cboxAll = document.getElementById('checkbox-all');
-        var cbox = document.getElementById('checkbox');
-        var boxes = $(":checkbox:checked");
-
-        cboxAll.addEventListener('click', function(){
-            if (cbox.checked==false){
-                cbox.checked = true;
-            } else {
-                cbox.checked = false;
-            }
-        })
-
-
-
-        function submitForm(cartItemId, quantity, method) {
+        function submitForm(cartItemId, method) {
             var form = document.getElementById('cart-form-' + cartItemId);
             var formData = new FormData(form);
             var csrfToken = formData.get('csrfmiddlewaretoken');
             var url = "{% url 'cart' %}"      
-            var quantity = updateQuantities[cartItemId]      
+            var quantity = updateQuantities[cartItemId]
 
             fetch(url, {
                 method: method.toUpperCase(),
@@ -167,14 +150,23 @@
                 })
             })
             .then(response => {
-                if (response.ok) {
-                    location.reload();
-                } else {
-                    alert('An error occurred.');
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+                    });
                 }
+                return response.json();
             })
-            .catch(error => console.error('Error:', error));
-        }
+            .then(data => {
+                console.log('Success:', data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+            }
     </script>
     
 </body>
