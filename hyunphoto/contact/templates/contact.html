@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Hyunphoto - contact</title>
     <style>
-    body {
+        body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
@@ -100,15 +100,10 @@
             color: #0056b3;
         }
 
-        .bold-link {
-            font-weight: bold;
-        }
-
-
-
         /* Main Content Styles */
         main {
-            padding: 40px 0;
+            padding: 60px 0;
+            background-color: #ffffff;
         }
 
         main h2 {
@@ -127,13 +122,128 @@
             color: #555;
         }
 
+        .user-info {
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .user-info p {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        form {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #333;
+            text-align: left;
+        }
+
+        form textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            resize: vertical;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        form button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #0056b3;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #003d80;
+        }
+
+        .message, .error {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-left: 5px solid;
+            border-radius: 8px;
+        }
+
+        .message {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .message p, .error p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .bold-link {
+            font-weight: bold;
+        }
+
+
+        /* Footer Styles */
+        footer {
+            background-color: #f0f0f0;
+            color: #666;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0056b3;
+            margin: 0 5px;
+            font-weight: 300;
+            transition: color 0.2s ease-in;
+        }
+
+        footer a:hover {
+            color: #333;
+        }
+
     </style>
     
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Hyunphoto</h1>
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
             {% if user.is_authenticated %}
                 <a>Hello, {{ user.username }}!
                 <a href="{% url 'logout' %}">Logout</a></a>
@@ -147,8 +257,6 @@
     <nav>
         <ul>
             <li><a href="{% url 'main' %}">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}" class="bold-link">Contact</a></li>
             <li><a href="{% url 'photos' %}">Photos</a></li>
             <li><a href="{% url 'user-profile' %}">My Page</a></li>
@@ -156,33 +264,46 @@
             <li><a href="{% url 'cart' %}">Cart</a></li>
         </ul>
     </nav>
-    <div class="container">        
-        <div class="user-info">
-            <p><strong>Logged in as:</strong> {{ user.username }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Phone:</strong> {{ user.phone }}</p>
+    <main>
+        <div class="container">        
+            <div class="user-info">
+                <p><strong>Logged in as:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Phone:</strong> {{ user.phone }}</p>
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+
+            {% if message %}
+                <div class="message">
+                    <p>Thank you for your message!</p>
+                    <p><strong>Your Message:</strong> {{ message }}</p>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="error">
+                    <p>There was an error processing your request. Please try again.</p>
+                    <p><strong>Error:</strong> {{ error }}</p>
+                </div>
+            {% endif %}
         </div>
-        
-        <form method="POST">
-            {% csrf_token %}
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    </main>
 
-        {% if message %}
-            <div class="message">
-                <p>Thank you for your message!</p>
-                <p><strong>Your Message:</strong> {{ message }}</p>
-            </div>
-        {% endif %}
-
-        {% if error %}
-            <div class="error">
-                <p>There was an error processing your request. Please try again.</p>
-                <p><strong>Error:</strong> {{ error }}</p>
-            </div>
-        {% endif %}
-    </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hyunphoto. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="#">Twitter</a> |
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>

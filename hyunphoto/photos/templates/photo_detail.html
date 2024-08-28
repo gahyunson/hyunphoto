@@ -6,112 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Product Page</title>
     <style>
-        /* General Styles */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fafafa;
             color: #444;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
+            line-height: 1.7;
         }
 
-        /* Container */
-        .container {
-            max-width: 900px;
-            background-color: #fff;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-radius: 8px;
-        }
-
-        /* Photo Image */
-        .photo-image {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Photo Title */
-        .photo-title {
-            font-size: 28px;
-            font-weight: 300;
-            margin: 20px 0;
+        h1, h2 {
             color: #333;
+            margin: 0;
         }
 
-        /* Photo Price */
-        .photo-price {
-            font-size: 20px;
-            color: #777;
-            margin-bottom: 20px;
-        }
-
-        /* Select Size */
-        .select-size {
-            margin: 20px 0;
-            padding: 8px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 220px;
-        }
-
-        /* Add to Cart Button */
-        .add-to-cart {
-            display: inline-block;
-            padding: 12px 25px;
-            font-size: 16px;
-            background-color: #0056b3;
-            color: #fff;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .add-to-cart:hover {
-            background-color: #003d80;
-        }
-
-        /* Photo Description */
-        .photo-description {
-            margin-top: 30px;
-            text-align: left;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 15px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        /* Guarantee and Shipping Info */
-        .guarantee, .shipping-info {
-            margin-top: 40px;
-            text-align: left;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 15px;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        .guarantee h3, .shipping-info h3 {
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 10px;
+        a {
             color: #0056b3;
+            text-decoration: none;
+            font-weight: 400;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease-in;
+        }
+
+        a:hover {
+            border-color: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin: 10px 0 0;
+            font-weight: 300;
+        }
+
+        header a {
+            color: #0056b3;
+            font-weight: 400;
+            margin-left: 20px;
+            font-size: 0.9em;
         }
 
         /* Navigation Styles */
@@ -120,10 +73,7 @@
             color: #333;
             padding: 15px 0;
             border-bottom: 1px solid #e0e0e0;
-            width: 100%;
-            text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
         }
 
         nav ul {
@@ -135,7 +85,7 @@
         }
 
         nav ul li {
-            margin: 0 15px;
+            margin: 0 20px;
         }
 
         nav ul li a {
@@ -150,87 +100,174 @@
             color: #0056b3;
         }
 
-        /* Menu Bar */
-        .menu-bar {
+        /* Main Container */
+        main .container {
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-bottom: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
         }
 
-        .menu-bar h1 {
-            font-size: 2em;
-            font-weight: 300;
-            margin: 0;
+        /* Photo Image */
+        .photo-image {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .menu-bar a {
+        /* Photo Title */
+        .photo-title {
+            font-size: 28px;
+            font-weight: 500;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        /* Photo Price */
+        .photo-price {
+            font-size: 24px;
+            font-weight: 400;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* Select Size */
+        .select-size {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 240px;
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 18px;
+            background-color: #0056b3;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: #003d80;
+        }
+
+        .guide {
+            color:rgb(169, 165, 165);
+            text-align: start;
+            padding: 30px;
+        }
+
+        /* Footer Styles */
+        footer .container {
+            max-width: 1000px;
+            padding: 20px 0;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+
+        footer a {
             color: #0056b3;
             text-decoration: none;
-            font-weight: 400;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s ease-in;
+            font-weight: 500;
         }
 
-        .menu-bar a:hover {
-            border-color: #0056b3;
+        footer a:hover {
+            text-decoration: underline;
         }
+
     </style>
 </head>
 <body>
-    <div class="menu-bar">
-        <h1><a href="{% url 'main' %}">Home</a></h1>
-    </div>
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user-profile' %}">Hello, {{ user.username }}!
+            {% else %}
+                <a href="{% url 'user' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
     <nav>
         <ul>
             <li><a href="{% url 'main' %}">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
-            <li><a href="{% url 'photos' %}">Photos</a></li>
+            <li><a href="{% url 'photos' %}" class="bold-link">Photos</a></li>
             <li><a href="{% url 'user-profile' %}">My Page</a></li>
             <li><a href="{% url 'fandq' %}">F&Qs</a></li>
             <li><a href="{% url 'cart' %}">Cart</a></li>
         </ul>
     </nav>
-    <div class="container">
-        <img src="{% static photo.photo_path %}" alt="{{ photo.title }}" class="photo-image">
-        <div class="photo-title">{{ photo.title }}</div>
-        <div class="photo-description">
-            {{ photo.description }}
-        </div>
-        <div class="photo-price-{{ photo.id }}">${{ photo.price_set.first.price }}</div>
-        
-        <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
-            {% for price in photo.price_set.all %}
-                <option value="{{ price.price }}" data-size="{{ price.size }}" data-price-id="{{ price.id }}">Size: {{ price.size }}</option>
-            {% endfor %}
-        </select>
-        
-        <form action="{% url 'photo_detail' photo.id %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="photo_id" value="{{ photo.id }}">
-            <input type="hidden" name="price_id" id="price_id-{{ photo.id }}" value="{{ photo.price_set.first.id }}">
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
-            <button type="submit">Add to Cart</button>
-        </form>
-        
-        
 
-        <!-- 100% Satisfaction Guarantee Section -->
-        <div class="guarantee">
-            <h3>100% Satisfaction Guarantee</h3>
-            <p>We stand behind the quality of our artwork with a 100% Satisfaction Guarantee. If you're not completely happy with your purchase, simply return it for a full refund, including paid return shipping.</p>
+    <main>
+        <div class="container">
+            <img src="{% static photo.photo_path %}" alt="{{ photo.title }}" class="photo-image">
+            <div class="photo-title">{{ photo.title }}</div>
+            <div class="photo-description">
+                {{ photo.description }}
+            </div>
+            
+            <div class="photo-price-{{ photo.id }}">${{ photo.price_set.first.price }}</div>
+            <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice({{ photo.id }})">
+                {% for price in photo.price_set.all %}
+                    <option value="{{ price.price }}" data-size="{{ price.size }}" data-price-id="{{ price.id }}">Size: {{ price.size }}</option>
+                {% endfor %}
+            </select>
+            
+            <form action="{% url 'photo_detail' photo.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="photo_id" value="{{ photo.id }}">
+                <input type="hidden" name="price_id" id="price_id-{{ photo.id }}" value="{{ photo.price_set.first.id }}">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
+                <button type="submit">Add to Cart</button>
+            </form>
+    
+        
+        
+        <div class="guide">
+            <div class="guarantee">
+                <h3>100% Satisfaction Guarantee</h3>
+                <p>We stand behind the quality of our artwork with a 100% Satisfaction Guarantee. If you're not completely happy with your purchase, simply return it for a full refund, including paid return shipping.</p>
+            </div>
+            <div class="shipping-info">
+                <h3>Shipping Information</h3>
+                <p>All applicable taxes will be calculated at checkout. Your print will be carefully prepared and shipped within 1-2 weeks of your order. Each piece undergoes a meticulous inspection by the artist to ensure the highest quality. No signature is required upon delivery.</p>
+            </div>
         </div>
-
-        <!-- Shipping Information Section -->
-        <div class="shipping-info">
-            <h3>Shipping Information</h3>
-            <p>All applicable taxes will be calculated at checkout. Your print will be carefully prepared and shipped within 1-2 weeks of your order. Each piece undergoes a meticulous inspection by the artist to ensure the highest quality. No signature is required upon delivery.</p>
-        </div>
+    </main>
     </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hyunphoto. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="#">Twitter</a> |
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a>
+            </p>
+        </div>
+    </footer>
 
     <script>
         function updatePrice(photoId) {
+            console.log(photoId)
             var selectElement = document.getElementById('size-select-' + photoId);
             var selectedOption = selectElement.options[selectElement.selectedIndex]
             var selectedPrice = selectedOption.value;
@@ -241,6 +278,7 @@
 
             var priceIdInput = document.getElementById('price_id-'+photoId);
             priceIdInput.value = selectedPriceId;
+            console.log(priceIdInput)
         }
 
         document.getElementById('add-to-cart').addEventListener('submit', function(event) {

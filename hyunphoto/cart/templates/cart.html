@@ -7,30 +7,100 @@
     <title>{{ user.username }}'s Cart</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #fafafa;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        h1, h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 400;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease-in;
+        }
+
+        a:hover {
+            border-color: #0056b3;
         }
 
         .container {
-            width: 80%;
-            max-width: 900px;
-            background-color: #fff;
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
         }
 
-        h1 {
-            font-size: 2em;
+        /* Header Styles */
+        header {
+            background-color: #f0f0f0;
             color: #333;
+            padding: 30px 0;
             text-align: center;
-            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin: 10px 0 0;
+            font-weight: 300;
+        }
+
+        header a {
+            color: #0056b3;
+            font-weight: 400;
+            margin-left: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #333;
+            font-weight: 300;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #0056b3;
+        }
+        .bold-link {
+            font-weight: bold;
         }
 
         .cart-item {
@@ -89,41 +159,95 @@
             background-color: #0056b3;
         }
 
+        footer {
+            background-color: #f0f0f0;
+            color: #666;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
 
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #0056b3;
+            margin: 0 5px;
+            font-weight: 300;
+            transition: color 0.2s ease-in;
+        }
+
+        footer a:hover {
+            color: #333;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>{{ user.username }}'s Cart</h1>
-        <a href="{% url 'main' %}">Home</a>
-        <div id="cart">
-        {% for cart_item in cart %}
-            <div class="cart-item">
-                <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
-                <div class="cart-item-details">
-                    <div><strong>{{ cart_item.photo.title }}</strong></div>
-                    <div>Size: {{ cart_item.price.size }}</div>
-                    <div>Price: ${{ cart_item.price.price }}</div>
-                    <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}" onchange="updateQuantity({{ cart_item.id }}, this.value)"/>pcs</div>
-                </div>
-            </div>
-            <div class="cart-modify">
-                <form id="cart-form-{{ cart_item.id }}">
-                    {% csrf_token %}
-                    <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
-                    <input type="button" value="modify" onclick="submitForm({{ cart_item.id }}, method='put')"/>
-                    <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, method='delete')"/>
-                </form>
-            </div>
-        {% endfor %}
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user-profile' %}">Hello, {{ user.username }}!
+            {% else %}
+                <a href="{% url 'user' %}">Login</a>
+            {% endif %}
         </div>
-        <div class="total">
-            <p>Total Quantity: {{ total.total_quantity }} pcs</p>
-            <p>Total Price: ${{ total.total_price }}</p>
-        </div>
+    </header>
 
-        <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
-    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'main' %}">Home</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'photos' %}">Photos</a></li>
+            <li><a href="{% url 'user-profile' %}">My Page</a></li>
+            <li><a href="{% url 'fandq' %}">F&Qs</a></li>
+            <li><a href="{% url 'cart' %}" class="bold-link">Cart</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="container">
+            <div id="cart">
+            {% for cart_item in cart %}
+                <div class="cart-item">
+                    <img src="{% static cart_item.photo.photo_path %}" alt="{{ cart_item.photo.title }}">
+                    <div class="cart-item-details">
+                        <div><strong>{{ cart_item.photo.title }}</strong></div>
+                        <div>Size: {{ cart_item.price.size }}</div>
+                        <div>Price: ${{ cart_item.price.price }}</div>
+                        <div id="quantity">Quantity: <input type="number" name="quantity" value="{{ cart_item.quantity }}" onchange="updateQuantity({{ cart_item.id }}, this.value)"/>pcs</div>
+                    </div>
+                    <div class="cart-modify">
+                        <form id="cart-form-{{ cart_item.id }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="cart_item" value="{{ cart_item.id }}">
+                            <input type="button" class="btn btn-outline-danger" value="modify" onclick="submitForm({{ cart_item.id }}, method='put')"/>
+                            <input type="button" value="delete" onclick="submitForm({{ cart_item.id }}, method='delete')"/>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="total">
+                <p>Total Quantity: {{ total.total_quantity }} pcs</p>
+                <p>Total Price: ${{ total.total_price }}</p>
+            </div>
+
+            <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hyunphoto. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="#">Twitter</a> |
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a>
+            </p>
+        </div>
+    </footer>
     <script>
         var updateQuantities = {};
         function updateQuantity(cartItemId, newQuantity){

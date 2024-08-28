@@ -6,39 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Gallery</title>
     <style>
-        /* General Styles */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fafafa;
             color: #444;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        .menu-bar {
-            padding: 20px;
-            text-align: center;
-            background-color: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .menu-bar h1 {
-            font-size: 2em;
+        h1, h2 {
+            color: #333;
             margin: 0;
-            font-weight: 300;
         }
 
-        .menu-bar a {
-            color: #109571;
+        a {
+            color: #0056b3;
             text-decoration: none;
             font-weight: 400;
             border-bottom: 1px solid transparent;
             transition: border-color 0.2s ease-in;
         }
 
-        .menu-bar a:hover {
-            border-color: #109571;
+        a:hover {
+            border-color: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin: 10px 0 0;
+            font-weight: 300;
+        }
+
+        header a {
+            color: #0056b3;
+            font-weight: 400;
+            margin-left: 20px;
+            font-size: 0.9em;
         }
 
         /* Navigation Styles */
@@ -71,7 +97,26 @@
         }
 
         nav ul li a:hover {
-            color: #109571;
+            color: #0056b3;
+        }
+        main {
+            padding: 10px 0;
+        }
+
+        main h2 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        main p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #555;
         }
         .bold-link {
             font-weight: bold;
@@ -136,14 +181,20 @@
 </head>
 
 <body>
-    <div class="menu-bar">
-        <h1><a href="{% url 'main' %}">Home</a></h1>
-    </div>
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user-profile' %}">Hello, {{ user.username }}!
+            {% else %}
+                <a href="{% url 'user' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
     <nav>
         <ul>
             <li><a href="{% url 'main' %}">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
             <li><a href="{% url 'photos' %}" class="bold-link">Photos</a></li>
             <li><a href="{% url 'user-profile' %}">My Page</a></li>
@@ -151,18 +202,21 @@
             <li><a href="{% url 'cart' %}">Cart</a></li>
         </ul>
     </nav>
-    <div class="gallery-container">
-        {% for photo in photos %}
-        <div class="photo-item">
-            <a href="{% url 'photo_detail' photo.id %}">
-                <img src="{% static photo.photo_path %}" alt="{{ photo.title }}">
-                <div class="photo-details">
-                    <div class="photo-title">{{ photo.title }}</div>
-                </div>
-            </a>
+
+    <main>
+        <div class="gallery-container">
+            {% for photo in photos %}
+            <div class="photo-item">
+                <a href="{% url 'photo_detail' photo.id %}">
+                    <img src="{% static photo.photo_path %}" alt="{{ photo.title }}">
+                    <div class="photo-details">
+                        <div class="photo-title">{{ photo.title }}</div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+    </main>
 
 </body>
 </html>

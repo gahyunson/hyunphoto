@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page - {{ title }}</title>
+    <title>Hyunphoto</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Link to external CSS (if any) -->
@@ -30,6 +30,7 @@
             border-bottom: 1px solid transparent;
             transition: border-color 0.2s ease-in;
         }
+
 
         a:hover {
             border-color: #0056b3;
@@ -159,7 +160,7 @@
     <!-- Header Section -->
     <header>
         <div class="container">
-            <h1>Hyunphoto</h1>
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
             {% if user.is_authenticated %}
                 <a>Hello, {{ user.username }}!
                 <a href="{% url 'logout' %}">Logout</a></a>
@@ -173,8 +174,6 @@
     <nav>
         <ul>
             <li><a href="{% url 'main' %}" class="bold-link">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
             <li><a href="{% url 'contact' %}">Contact</a></li>
             <li><a href="{% url 'photos' %}">Photos</a></li>
             <li><a href="{% url 'user-profile' %}">My Page</a></li>

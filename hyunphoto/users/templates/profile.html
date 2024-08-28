@@ -7,21 +7,120 @@
     <style>
         /* General Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7fa;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
+            background-color: #fafafa;
+            color: #444;
+            line-height: 1.7;
         }
 
-        h1 {
-            color: #2c3e50;
+        h1, h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 400;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease-in;
+        }
+
+
+        a:hover {
+            border-color: #0056b3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            margin: 10px 0 0;
+            font-weight: 300;
+        }
+
+        header a {
+            color: #0056b3;
+            font-weight: 400;
+            margin-left: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #ffffff;
+            color: #333;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #333;
+            font-weight: 300;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #0056b3;
+        }
+        main {
+            padding: 40px 0;
+        }
+
+        main h2 {
+            font-size: 2.2em;
             margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        main p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #555;
+        }
+        .bold-link {
+            font-weight: bold;
         }
 
         /* Profile Info Container */
@@ -100,68 +199,80 @@
     </style>
 </head>
 <body>
-    <h1>User Profile</h1>
-    <a href="{% url 'main' %}">Home</a>
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'main' %}">Hyunphoto</a></h1>
+            {% if user.is_authenticated %}
+                <a>Hello, {{ user.username }}!
+                <a href="{% url 'logout' %}">Logout</a></a>
+            {% else %}
+                <a href="{% url 'user' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
 
-    {% if user_info.message %}
-        <p>{{ user_info.message }}</p>
-    {% else %}
-        <form id="profile-form" method="post">
-            {% csrf_token %}
-            <p>email: {{ user_info.email }}</p>
-            <p>username: {{ user_info.username }}</p>
-            <p>address: {{ user_info.address }}</p>
-            <p>address2: {{ user_info.address2 }}</p>
-            <p>postal: {{ user_info.postal }}</p>
-            <p>city: {{ user_info.city }}</p>
-            <p>nation: {{ user_info.nation }}</p>
-            <p>company: {{ user_info.company }}</p>
-            <p>phone: {{ user_info.phone }}</p>
+    <nav>
+        <ul>
+            <li><a href="{% url 'main' %}">Home</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'photos' %}">Photos</a></li>
+            <li><a href="{% url 'user-profile' %}" class="bold-link">My Page</a></li>
+            <li><a href="{% url 'fandq' %}">F&Qs</a></li>
+            <li><a href="{% url 'cart' %}">Cart</a></li>
+        </ul>
+    </nav>
 
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ user_info.email }}" readonly>
-            </div>
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="{{ user_info.username }}">
-            </div>
-            <div>
-                <label for="address">address:</label>
-                <input type="text" id="address" name="address" value="{{ user_info.address }}">
-            </div>
-            <div>
-                <label for="address2">address2:</label>
-                <input type="text" id="address2" name="address2" value="{{ user_info.address2 }}">
-            </div>
-            <div>
-                <label for="postal">postal:</label>
-                <input type="text" id="postal" name="postal" value="{{ user_info.postal }}">
-            </div>
-            <div>
-                <label for="city">city:</label>
-                <input type="text" id="city" name="city" value="{{ user_info.city }}">
-            </div>
-            <div>
-                <label for="nation">Nation:</label>
-                <input type="text" id="nation" name="nation" value="{{ user_info.nation }}">
-            </div>
-            <div>
-                <label for="company">Company:</label>
-                <input type="text" id="company" name="company" value="{{ user_info.company }}">
-            </div>
-            <div>
-                <label for="phone">phone:</label>
-                <input type="text" id="phone" name="phone" value="{{ user_info.phone }}">
-            </div>
-            <button type="submit">Update Profile</button>
-        </form>
-        <form id="delete-form" action="{% url 'user-profile' %}" method="post" >
-            {% csrf_token %}
-            <input type="hidden" name="_method" value="DELETE"/>
-            <button type="submit">Delete Account</button>
-        </form>
-    {% endif %}
+    <main>
+        {% if user_info.message %}
+            <p>{{ user_info.message }}</p>
+        {% else %}
+            <form class="profile-container" id="profile-form" method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ user_info.email }}" readonly>
+                </div>
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" value="{{ user_info.username }}">
+                </div>
+                <div>
+                    <label for="address">address:</label>
+                    <input type="text" id="address" name="address" value="{{ user_info.address }}">
+                </div>
+                <div>
+                    <label for="address2">address2:</label>
+                    <input type="text" id="address2" name="address2" value="{{ user_info.address2 }}">
+                </div>
+                <div>
+                    <label for="postal">postal:</label>
+                    <input type="text" id="postal" name="postal" value="{{ user_info.postal }}">
+                </div>
+                <div>
+                    <label for="city">city:</label>
+                    <input type="text" id="city" name="city" value="{{ user_info.city }}">
+                </div>
+                <div>
+                    <label for="nation">Nation:</label>
+                    <input type="text" id="nation" name="nation" value="{{ user_info.nation }}">
+                </div>
+                <div>
+                    <label for="company">Company:</label>
+                    <input type="text" id="company" name="company" value="{{ user_info.company }}">
+                </div>
+                <div>
+                    <label for="phone">phone:</label>
+                    <input type="text" id="phone" name="phone" value="{{ user_info.phone }}">
+                </div>
+                <button type="submit">Update Profile</button>
+            </form>
+            <form id="delete-form" action="{% url 'user-profile' %}" method="post" >
+                {% csrf_token %}
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button type="submit">Delete Account</button>
+            </form>
+        {% endif %}
+    </main>
 
     <script>
         document.getElementById('profile-form').addEventListener('submit', function(event) {
