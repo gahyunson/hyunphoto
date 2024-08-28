@@ -28,4 +28,6 @@ class Price(models.Model):
         verbose_name = 'price'
         verbose_name = 'price'
     
+    def __str__(self) -> str:
+        return self.size + ' of ' + self.photo.title
 
