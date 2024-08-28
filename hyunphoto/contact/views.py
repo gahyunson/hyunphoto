@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -19,11 +19,10 @@ class ContactView(APIView):
             context = {
                 'data': serializer.data
             }
-            return Response(context, status=200)
-        else:
-            context = {
-                'data': 'not found'
-            }
-            return Response(context, status=400)
+            return redirect('/')
+        context = {
+            'data': 'not found'
+        }
+        return Response(context, status=400)
     
 contactview = ContactView.as_view()

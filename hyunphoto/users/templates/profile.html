@@ -21,16 +21,11 @@
         }
 
         a {
-            color: #0056b3;
+            color: #333;
             text-decoration: none;
             font-weight: 400;
             border-bottom: 1px solid transparent;
             transition: border-color 0.2s ease-in;
-        }
-
-
-        a:hover {
-            border-color: #0056b3;
         }
 
         .container {
@@ -62,7 +57,7 @@
         }
 
         header a {
-            color: #0056b3;
+            color: #333;
             font-weight: 400;
             margin-left: 20px;
             font-size: 0.9em;
@@ -97,9 +92,6 @@
             transition: color 0.2s;
         }
 
-        nav ul li a:hover {
-            color: #0056b3;
-        }
         main {
             padding: 40px 0;
         }
@@ -264,11 +256,11 @@
                     <label for="phone">phone:</label>
                     <input type="text" id="phone" name="phone" value="{{ user_info.phone }}">
                 </div>
-                <button type="submit">Update Profile</button>
             </form>
             <form id="delete-form" action="{% url 'user-profile' %}" method="post" >
                 {% csrf_token %}
                 <input type="hidden" name="_method" value="DELETE"/>
+                <button type="submit">Update Profile</button>
                 <button type="submit">Delete Account</button>
             </form>
         {% endif %}
