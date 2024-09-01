@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -49,7 +49,6 @@ class PhotoDetailView(APIView):
         cart = Cart.objects.filter(user=user, photo_id=photo_id, price_id=price_id)
         if cart:
             cart.update(quantity=F('quantity')+1)
-            return render(request, 'cart.html')
         else:
             context = {
                 'user': user,
@@ -60,8 +59,7 @@ class PhotoDetailView(APIView):
             serializer = CartSerializer(data=context)
             if serializer.is_valid():
                 serializer.save()
-                return render(request, 'cart.html')
-        return Response({'message': 'Login required'}, status=status.HTTP_400_BAD_REQUEST)
+        return redirect('cart')
         
 
 
