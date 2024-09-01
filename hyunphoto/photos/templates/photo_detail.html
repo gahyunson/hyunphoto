@@ -282,7 +282,7 @@
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}',
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     photo_id: formData.get('photo_id'),
@@ -301,6 +301,7 @@
             })
             .catch(error => console.error('Error:', error));
         });
+        // console.log('header check!!!',response.headers);
     </script>
 </body>
 </html>

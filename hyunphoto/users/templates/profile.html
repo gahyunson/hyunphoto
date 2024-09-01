@@ -249,7 +249,7 @@
                 <hr color="#444">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" value="{{ user_info.username }}">
+                    <input type="text" class="form-control" id="username" name="username" value="{{ user_info.username }}">
                 </div>
                 <div class="form-group">
                     <label for="address">address:</label>
@@ -280,11 +280,12 @@
                     <input type="text" class="form-control" id="phone" name="phone" value="{{ user_info.phone }}">
                 </div>
             </form>
-            <form class="buttons-container" name="delete-form" action="{% url 'user-profile' %}" method="post" >
+            <form class="buttons-container" id="user-form">
                 {% csrf_token %}
+                <input type="hidden" name="_method" value="PUT"/>
+                <button class="btn btn-outline-primary" onclick="updateProfile()" value="update">Update Profile</button>
                 <input type="hidden" name="_method" value="DELETE"/>
-                <button type="submit" class="btn btn-outline-primary">Update Profile</button>
-                <button type="submit" class="btn btn-outline-danger">Delete Account</button>
+                <button class="btn btn-outline-danger" onclick="deleteUser()"  value="delete">Delete Account</button>
             </form>
         {% endif %}
     </main>
@@ -300,9 +301,12 @@
     </footer>
 
     <script>
-        document.getElementById('profile-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
+        function updateProfile(event) {
+            var form = document.getElementById('profile-form');
+            var formData = new FormData(form);
+
+            var email = document.getElementById('email');
+            
 
             fetch("{% url 'user-profile' %}", {
                 method: 'PUT',
@@ -312,8 +316,8 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    email: email,
                     username: formData.get('username'),
-                    email: formData.get('email'),
                     address: formData.get('address'),
                     address2: formData.get('address2'),
                     postal: formData.get('postal'),
@@ -333,14 +337,13 @@
                 }
             })
             .catch(error => console.error('Error:', error));
-        });
+        };
 
-        document.getElementById('delete-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        function deleteUser(event) {
             const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
             
             if (confirm('Are you sure you want to delete your account?')){
-                fetch(this.action, {
+                fetch("{% url 'user-profile' %}", {
                     method: 'DELETE',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',
@@ -348,13 +351,11 @@
                     }
                 })
                 .then(response => {
-                    if (response.ok) {
+                    console.log(response.ok);
+                    if (response.ok){
                         alert('Your account has been deleted.');
-                        window.location.href = '/';
                     } else {
-                        return response.json().then(data => {
-                            alert('Failed to delete account: ' + (data.detail || 'Unknown error'));
-                        });
+                        alert('Failed to delete account');
                     }
                 })
                 .catch(error => {
@@ -363,7 +364,7 @@
                 })
             }
 
-        });
+        };
     </script>
 </body>
 </html>

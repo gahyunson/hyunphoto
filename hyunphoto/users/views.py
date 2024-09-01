@@ -76,6 +76,9 @@ class UserLogoutView(APIView):
     
 userlogoutview = UserLogoutView.as_view()
 
+
+
+
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -106,16 +109,19 @@ class UserProfileView(APIView):
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print('data is valid', serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors)
     
     def delete(self, request):
         user = request.user
         try: 
             user.delete()
-            return redirect('/')
+            print('deleted')
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except SocialAccount.DoesNotExist:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 userprofileview = UserProfileView.as_view()
 

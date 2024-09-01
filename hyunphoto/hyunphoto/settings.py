@@ -100,8 +100,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'allauth.account.middleware.AccountMiddleware',
-]
 
+    # 'photos.custom_middleware.CustomMiddleware',
+]
+    
 ROOT_URLCONF = 'hyunphoto.urls'
 
 TEMPLATES = [
