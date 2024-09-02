@@ -1,14 +1,17 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Cart
 from photos.models import Price
+import logging
+logger = logging.getLogger(__name__)
 
 class CartView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     @staticmethod
     def get_total(cart):
@@ -26,14 +29,19 @@ class CartView(APIView):
 
 
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.filter(user=request.user)
-        total = self.get_total(cart)
-        context = {
-            'user': request.user,
-            'cart': cart,
-            'total': total,
-        }
-        return render(request, 'cart.html', context)
+        if request.user.is_authenticated:
+            cart = Cart.objects.filter(user=request.user)
+            total = self.get_total(cart)
+            context = {
+                'user': request.user,
+                'cart': cart,
+                'total': total,
+            }
+            return render(request, 'cart.html', context)
+        else:
+            return render(request, 'cart.html')
+            # return render(request, 'main.html')
+            # return redirect('accounts')
 
     def put(self, request, *args, **kwargs):
         cart_item_id = request.data.get('cart_item')

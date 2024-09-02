@@ -118,10 +118,11 @@ class UserProfileView(APIView):
         user = request.user
         try: 
             user.delete()
-            print('deleted')
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            context = {"message": "successful"}
+            return Response(context, status=status.HTTP_204_NO_CONTENT)
         except SocialAccount.DoesNotExist:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            context = {"message": "DoesNotExist"}
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
 userprofileview = UserProfileView.as_view()
 

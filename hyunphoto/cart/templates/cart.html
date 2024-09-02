@@ -154,6 +154,13 @@
             background-color: #0056b3;
         }
 
+        .cart-else {
+            font-size: 1.5em;
+            padding: 30px 0;
+            text-align: center;
+            color:#777777;
+        }
+
         footer {
             background-color: #f0f0f0;
             color: #666;
@@ -204,6 +211,7 @@
     </nav>
     <main>
         <div class="container">
+            {% if user.is_authenticated %}
             <div id="cart">
             {% for cart_item in cart %}
                 <div class="cart-item">
@@ -225,12 +233,19 @@
                 </div>
             {% endfor %}
             </div>
+            
             <div class="total">
                 <p>Total Quantity: {{ total.total_quantity }} pcs</p>
                 <p>Total Price: ${{ total.total_price }}</p>
             </div>
-
             <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
+
+            {% else %}
+            <div class="cart-else">
+                <p>Login Required</p>
+                <a href="{% url 'main' %}">Return to Main Page</a>
+            </div>
+            {% endif %}
         </div>
     </main>
     <footer>
@@ -269,7 +284,6 @@
                 })
             })
             .then(response => {
-                console.log('Response status:', response.status);
                 if (!response.ok) {
                     return response.text().then(text => {
                         throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
