@@ -6,7 +6,6 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        /* General Styles */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -348,7 +347,8 @@
         };
 
         function deleteUser(event) {
-            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            // event.preventDefault();
+            // const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
             
             if (confirm('Are you sure you want to delete your account?')){
                 fetch("{% url 'user-profile' %}", {
@@ -359,9 +359,9 @@
                     }
                 })
                 .then(response => {
-                    console.log(response.ok);
+                    console.log('delete result:', response.ok);
                     if (response.ok){
-                        window.location.href = "{% url 'main' %}";
+                        window.location.replace("{% url 'user-deleted' %}");
                     } else {
                         alert('Failed to delete account');
                     }

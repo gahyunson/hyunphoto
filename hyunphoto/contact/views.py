@@ -6,7 +6,7 @@ from . import serializers
 
 
 class ContactView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         return render(request, 'contact.html')

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from rest_framework.views import APIView
@@ -65,6 +66,7 @@ class GoogleCallbackView(APIView):
         # Use credentials to interact with Google APIs or store them in your database
 
         return render(request, 'home.html', {'message': 'Signed in successfully!'})
+    
 usersigninview = UserSigninview.as_view()
 googlecallbackview = GoogleCallbackView.as_view()
 
@@ -120,10 +122,21 @@ class UserProfileView(APIView):
         try: 
             user.delete()
             context = {"message": "successful"}
-            return Response(context, status=status.HTTP_204_NO_CONTENT)
+            print(context)
+            # return Response(context, status=status.HTTP_204_NO_CONTENT)
+            return render(request, 'user_del.html', context)
+            # return JsonResponse(context, status=204)
+            # return redirect('user-deleted/')
+
         except SocialAccount.DoesNotExist:
             context = {"message": "DoesNotExist"}
-            return Response(context, status=status.HTTP_400_BAD_REQUEST)
+            # return Response(context, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(context, status=400)
 
 userprofileview = UserProfileView.as_view()
 
+class UserDeleteView(APIView):
+    def get(self, request):
+        return render(request, 'user_del.html')
+    
+userdeleteview = UserDeleteView.as_view()

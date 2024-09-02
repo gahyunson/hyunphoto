@@ -179,6 +179,12 @@
             border-radius: 8px;
         }
 
+
+        .guide {
+            text-align: center;
+            color:#777777;
+        }
+
         .message {
             border-color: #28a745;
             color: #28a745;
@@ -249,26 +255,19 @@
         </ul>
     </nav>
     <main>
-        <div class="container">                    
+        <div class="container">       
+            {% if user.is_authenticated %}             
             <form method="POST">
                 {% csrf_token %}
                 <label for="message">Your Message:</label>
                 <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
                 <button type="submit" class="btn btn-outline-success" onclick="location.href='main'">Send Message</button>
             </form>
-
-            {% if message %}
-                <div class="message">
-                    <p>Thank you for your message!</p>
-                    <p><strong>Your Message:</strong> {{ message }}</p>
-                </div>
-            {% endif %}
-
-            {% if error %}
-                <div class="error">
-                    <p>There was an error processing your request. Please try again.</p>
-                    <p><strong>Error:</strong> {{ error }}</p>
-                </div>
+            {% else %}
+            <div class="guide">
+                <p>Login Required</p>
+                <a class="bold-link" href="{% url 'main' %}">Return to Main Page</a>
+            </div>
             {% endif %}
         </div>
     </main>

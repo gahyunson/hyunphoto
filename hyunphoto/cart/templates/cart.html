@@ -154,7 +154,7 @@
             background-color: #0056b3;
         }
 
-        .cart-else {
+        .guide {
             text-align: center;
             color:#777777;
         }
@@ -239,7 +239,7 @@
             <button class="checkout-button" onclick="location.href='{% url 'order' %}'">Proceed to Checkout</button>
 
             {% else %}
-            <div class="cart-else">
+            <div class="guide">
                 <p>Login Required</p>
                 <a class="bold-link" href="{% url 'main' %}">Return to Main Page</a>
             </div>

@@ -6,4 +6,5 @@ urlpatterns = [
     path('google/login/callback', views.googlecallbackview, name = 'google-callback'),
     path('logout/', views.userlogoutview, name='logout'),
     path('profile/', views.userprofileview, name='user-profile'),
+    path('account-deleted/', views.userdeleteview, name='user-deleted'),
 ]

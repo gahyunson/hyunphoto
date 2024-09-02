@@ -38,6 +38,8 @@ SITE_ID = 4
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,7 +123,7 @@ TEMPLATES = [
         },
     },
 ]
-
+ASGI_APPLICATION = "hyunphoto.asgi.application"
 WSGI_APPLICATION = 'hyunphoto.wsgi.application'
 
 
