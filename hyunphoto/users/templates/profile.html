@@ -353,7 +353,7 @@
                 .then(response => {
                     console.log(response.ok);
                     if (response.ok){
-                        alert('Your account has been deleted.');
+                        window.location.href = "{% url 'main' %}";
                     } else {
                         alert('Failed to delete account');
                     }
