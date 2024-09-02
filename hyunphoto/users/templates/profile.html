@@ -185,6 +185,11 @@
                 margin: 5px 0;
             }
         }
+
+        .guide {
+            text-align: center;
+
+        }
         footer {
             background-color: #f0f0f0;
             color: #666;
@@ -238,9 +243,7 @@
     </nav>
 
     <main>
-        {% if user_info.message %}
-            <p>{{ user_info.message }}</p>
-        {% else %}
+        {% if user.is_authenticated %}
             <form class="profile-container" id="profile-form" method="post">
                 {% csrf_token %}
                 <div>
@@ -287,6 +290,11 @@
                 <input type="hidden" name="_method" value="DELETE"/>
                 <button class="btn btn-outline-danger" onclick="deleteUser()"  value="delete">Delete Account</button>
             </form>
+        {% else %}
+            <div class="guide">
+                <p>Login Required</p>
+                <a class="bold-link" href="{% url 'main' %}">Return to Main Page</a>
+            </div>
         {% endif %}
     </main>
     <footer>

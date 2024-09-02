@@ -80,12 +80,12 @@ userlogoutview = UserLogoutView.as_view()
 
 
 class UserProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        social_account = SocialAccount.objects.filter(user=request.user, provider='google').first()
-
-        if social_account:
+        if request.user.is_authenticated:
+        # try:
+            # social_account = SocialAccount.objects.filter(user=request.user, provider='google').first()
             user_info = {
                 'email': request.user.email,
                 'username': request.user.username,
@@ -97,6 +97,7 @@ class UserProfileView(APIView):
                 'company': request.user.company,
                 'phone': request.user.phone,
             }
+        # except SocialAccount.DoesNotExist:
         else:
             user_info = {
                 'message': 'Login Required'
