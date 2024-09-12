@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from . import serializers
+from .forms import ContactForm
 
 
 class ContactView(APIView):
@@ -12,14 +13,21 @@ class ContactView(APIView):
         return render(request, 'contact.html')
     
     def post(self, request, *args, **kwargs):
-        data = request.data 
-        serializer = serializers.ContactSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            context = {
-                'data': serializer.data
-            }
-            return redirect('/')
+        form = ContactForm(request.data)
+        # data = request.data 
+        if form.is_valid():
+            print('form is valid!')
+            serializer = serializers.ContactSerializer(data=form.cleaned_data)
+            if serializer.is_valid():
+                print('serializer is valid!')
+                serializer.save(user=request.user)
+                context = {
+                    'data': serializer.data
+                }
+                return redirect('/')
+            else:
+                print('not valid serializer')
+        print('not valid forms')
         context = {
             'data': 'not found'
         }

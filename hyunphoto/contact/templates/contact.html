@@ -257,9 +257,9 @@
     <main>
         <div class="container">       
             {% if user.is_authenticated %}             
-            <form method="POST">
+            <form action="{% url 'contact' %}" method="POST">
                 {% csrf_token %}
-                <label for="message">Your Message:</label>
+                <label for="message">Your Message: </label>
                 <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
                 <button type="submit" class="btn btn-outline-success" onclick="location.href='main'">Send Message</button>
             </form>
