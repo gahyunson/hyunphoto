@@ -13,7 +13,7 @@ import paypalrestsdk
 import os
 
 
-secrets_file_path = os.path.join('../secrets.json')
+secrets_file_path = os.path.join('secrets.json')
 
 # Load the secrets from the JSON file
 with open(secrets_file_path, 'r') as f:
