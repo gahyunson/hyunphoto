@@ -35,7 +35,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 SITE_ID = 4
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -82,7 +81,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # SOCIALACCOUNT_ADAPTER = 'users.adapters.UserCustomAdapter'
 
-# REST_USE_JWT = True
 AUTH_USER_MODEL = 'users.User'
 
 
