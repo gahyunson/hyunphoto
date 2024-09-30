@@ -3,10 +3,10 @@
 #
 # For more help, visit the .dockerignore file reference guide at
 # https://docs.docker.com/go/build-context-dockerignore/
-.git 
-.gitignore 
+.git
+.gitignore
 
-.docker 
+.docker
 
 **/.DS_Store
 **/__pycache__
@@ -36,7 +36,7 @@
 **/values.dev.yaml
 LICENSE
 README.md
-.env/ 
-.venv/ 
+.env/
+.venv/
 venv/
 
