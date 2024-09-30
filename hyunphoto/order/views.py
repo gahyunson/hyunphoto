@@ -7,20 +7,20 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from cart.models import Cart
 from photos.models import Price
 from cart.views import CartView
-import json 
+import json
 import secrets
 import paypalrestsdk
 import os
 
 
-secrets_file_path = os.path.join('secrets.json')
+secrets_file_path = os.path.join('../secrets.json')
 
 # Load the secrets from the JSON file
 with open(secrets_file_path, 'r') as f:
     secrets = json.load(f)
 
 paypalrestsdk.configure({
-    "mode": "sandbox", 
+    "mode": "sandbox",
     "client_id": secrets['PAYPAL_CLIENT_ID'], # Updated
     "client_secret": secrets['PAYPAL_SECRET'], # Updated
 })
@@ -78,6 +78,6 @@ class OrderView(APIView):
             'total': total,
         }
         return render(request, 'order_list.html', context)
-    
-    
+
+
 orderview = OrderView.as_view()
