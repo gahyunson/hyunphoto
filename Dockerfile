@@ -15,7 +15,7 @@ ENV PYTHONUNBUFFERED=1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
-COPY ./secrets.json /tmp/secrets.json
+# COPY ./secrets.json /tmp/secrets.json
 COPY ./hyunphoto /hyunphoto
 WORKDIR /hyunphoto
 EXPOSE 8000
