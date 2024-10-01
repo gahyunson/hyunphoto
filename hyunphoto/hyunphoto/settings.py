@@ -11,15 +11,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os 
-import json 
+import os
+import json
 import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ROOT_DIR = os.path.dirname(BASE_DIR)
-SECRET_BASE_FILE = os.path.join(ROOT_DIR, 'secrets.json')
+SECRET_BASE_FILE = os.path.join(ROOT_DIR, '../secrets.json')
 
 secrets = json.loads(open(SECRET_BASE_FILE).read())
 for key, value in secrets.items():
@@ -97,7 +97,7 @@ MIDDLEWARE = [
 
     # 'photos.custom_middleware.CustomMiddleware',
 ]
-    
+
 ROOT_URLCONF = 'hyunphoto.urls'
 
 TEMPLATES = [
