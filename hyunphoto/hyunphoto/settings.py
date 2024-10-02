@@ -16,7 +16,7 @@ import json
 import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(".").resolve().parent
+BASE_DIR = Path(".").resolve()
 
 ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRET_BASE_FILE = os.path.join(ROOT_DIR, 'secrets.json')
