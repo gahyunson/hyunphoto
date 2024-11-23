@@ -225,7 +225,7 @@
                 <a>Hello, {{ user.username }}!
                 <a href="{% url 'logout' %}">Logout</a></a>
             {% else %}
-                <a href="{% url 'user' %}">Login</a>
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
     </header>
@@ -313,7 +313,7 @@
             var formData = new FormData(form);
 
             var email = document.getElementById('email');
-            
+
 
             fetch("{% url 'user-profile' %}", {
                 method: 'PUT',
@@ -340,7 +340,7 @@
                     alert('There was an error updating your profile.');
                 } else {
                     alert('Profile updated successfully!');
-                    location.reload(); 
+                    location.reload();
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -349,7 +349,7 @@
         function deleteUser(event) {
             // event.preventDefault();
             // const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-            
+
             if (confirm('Are you sure you want to delete your account?')){
                 fetch("{% url 'user-profile' %}", {
                     method: 'DELETE',

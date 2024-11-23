@@ -50,7 +50,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'rest_framework',
+    # 'rest_framework.authtoken',
     'paypal.standard.ipn',
+    'drf_spectacular',
 
     'main',
     'users',
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
     'contact',
     'cart',
     'order',
+    'core',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -188,3 +191,11 @@ LOGOUT_REDIRECT_URL = "/" # *
 
 PAYPAL_RECEIVER_EMAIL = 'gahyun.son6@gmail.com'
 PAYPAL_TEST = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+MIGRATION_MODULES = {
+    'ipn': None,
+}

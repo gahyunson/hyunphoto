@@ -228,7 +228,7 @@
         }
 
     </style>
-    
+
 </head>
 <body>
     <header>
@@ -238,7 +238,7 @@
                 <a>Hello, {{ user.username }}!
                 <a href="{% url 'logout' %}">Logout</a></a>
             {% else %}
-                <a href="{% url 'user' %}">Login</a>
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
     </header>
@@ -255,8 +255,8 @@
         </ul>
     </nav>
     <main>
-        <div class="container">       
-            {% if user.is_authenticated %}             
+        <div class="container">
+            {% if user.is_authenticated %}
             <form action="{% url 'contact' %}" method="POST">
                 {% csrf_token %}
                 <label for="message">Your Message: </label>

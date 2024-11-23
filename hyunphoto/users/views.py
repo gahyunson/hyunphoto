@@ -9,19 +9,12 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from allauth.socialaccount.models import SocialAccount
 
-# class UserSigninview(APIView):
-    
-#     def get(self, request):
-#         return render(request, 'home.html')
-
-
-
 from django.shortcuts import redirect
 from django.urls import reverse
 import google_auth_oauthlib.flow
 
-class UserSigninview(APIView):
 
+class UserSigninview(APIView):
     def get(self, request):
         # Create the flow using the client secrets file
         flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
@@ -66,19 +59,13 @@ class GoogleCallbackView(APIView):
         # Use credentials to interact with Google APIs or store them in your database
 
         return render(request, 'home.html', {'message': 'Signed in successfully!'})
-    
-usersigninview = UserSigninview.as_view()
-googlecallbackview = GoogleCallbackView.as_view()
-
-class UserLogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        logout(request)
-        return redirect('/')
-    
-userlogoutview = UserLogoutView.as_view()
 
 
+# class UserLogoutView(APIView):
+#     permission_classes = [IsAuthenticated]
+#     def get(self, request):
+#         logout(request)
+#         return redirect('/')
 
 
 class UserProfileView(APIView):
@@ -105,9 +92,9 @@ class UserProfileView(APIView):
                 'message': 'Login Required'
             }
         return render(request, 'profile.html', {'user_info': user_info})
-    
+
     def put(self, request):
-        user = request.user 
+        user = request.user
         print(user)
         serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
@@ -116,10 +103,10 @@ class UserProfileView(APIView):
             return Response(serializer.data)
         print(serializer.errors)
         return Response(serializer.errors)
-    
+
     def delete(self, request):
         user = request.user
-        try: 
+        try:
             user.delete()
             context = {"message": "successful"}
             print(context)
@@ -133,10 +120,14 @@ class UserProfileView(APIView):
             # return Response(context, status=status.HTTP_400_BAD_REQUEST)
             return JsonResponse(context, status=400)
 
-userprofileview = UserProfileView.as_view()
 
 class UserDeleteView(APIView):
     def get(self, request):
         return render(request, 'user_del.html')
-    
+
+
 userdeleteview = UserDeleteView.as_view()
+usersigninview = UserSigninview.as_view()
+googlecallbackview = GoogleCallbackView.as_view()
+# userlogoutview = UserLogoutView.as_view()
+userprofileview = UserProfileView.as_view()

@@ -27,7 +27,7 @@ paypalrestsdk.configure({
 
 def create_payment(request):
     cart = Cart.objects.filter(user=request.user)
-    total = CartView.get_total(cart)
+    total = CartView.__get_total(cart)
 
     payment = paypalrestsdk.Payment({
         "intent": "sale",

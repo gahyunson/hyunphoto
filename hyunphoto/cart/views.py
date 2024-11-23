@@ -13,25 +13,24 @@ logger = logging.getLogger(__name__)
 class CartView(APIView):
     permission_classes = [AllowAny]
 
-    @staticmethod
-    def get_total(cart):
+    # @staticmethod
+    def __get_total(cart):
         total_price = 0
         total_quantity = 0
         for c in cart:
             price = Price.objects.get(id=c.price.id)
             total_quantity += c.quantity
-            total_price += (price.price * c.quantity) 
+            total_price += (price.price * c.quantity)
         total = {
             'total_price': total_price,
             'total_quantity': total_quantity
         }
         return total
 
-
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             cart = Cart.objects.filter(user=request.user)
-            total = self.get_total(cart)
+            total = self.__get_total(cart)
             context = {
                 'user': request.user,
                 'cart': cart,
@@ -40,30 +39,27 @@ class CartView(APIView):
             return render(request, 'cart.html', context)
         else:
             return render(request, 'cart.html')
-            # return render(request, 'main.html')
-            # return redirect('accounts')
 
     def put(self, request, *args, **kwargs):
         cart_item_id = request.data.get('cart_item')
         new_quantity = request.data.get('quantity')
-        print('cart_item_id:', cart_item_id, 'new_quantity:', new_quantity)
+        # print('cart_item_id:', cart_item_id, 'new_quantity:', new_quantity)
         if not cart_item_id or not new_quantity:
             return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         Cart.objects.filter(id=cart_item_id).update(quantity = new_quantity)
         return JsonResponse({'satus': 'success'}, status=status.HTTP_200_OK)
-    
+
     def delete(self, request, *args, **kwargs):
         cart_item_id = request.data.get('cart_item')
-        print('delete', cart_item_id)
+        # print('delete', cart_item_id)
         if not cart_item_id:
             return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # cart_item = get_object_or_404(Cart, id=cart_item_id, user=request.user)
         cart_item = Cart.objects.filter(user=request.user, id=cart_item_id)
         if cart_item:
             cart_item.delete()
             return JsonResponse({'satus': 'success'}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
 cartview = CartView.as_view()

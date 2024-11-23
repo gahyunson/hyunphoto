@@ -8,8 +8,6 @@ class Cart(models.Model):
     quantity = models.IntegerField(default=1, null=False, blank=False)
     is_checked = models.BooleanField(default=True)
 
-
-
     class Meta:
         db_table = 'cart'
 

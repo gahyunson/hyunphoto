@@ -194,7 +194,7 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'user-profile' %}">Hello, {{ user.username }}!
             {% else %}
-                <a href="{% url 'user' %}">Login</a>
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
     </header>
@@ -215,14 +215,14 @@
             <img src="{% static photo.photo_path %}" alt="{{ photo.title }}" class="photo-image">
             <div class="photo-title">{{ photo.title }}</div>
             <div class="photo-description">{{ photo.description }}</div>
-            
+
             <div id="photo-price-{{ photo.id }}" class="photo-price">${{ photo.price_set.first.price }}</div>
             <select id="size-select-{{ photo.id }}" class="select-size" onchange="updatePrice('{{ photo.id }}')">
                 {% for price in photo.price_set.all %}
                     <option value="{{ price.price }}" data-size="{{ price.size }}" data-price-id="{{ price.id }}">Size: {{ price.size }}</option>
                 {% endfor %}
             </select>
-            
+
             <form action="{% url 'photo_detail' photo.id %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="photo_id" value="{{ photo.id }}">
@@ -231,9 +231,9 @@
                 <input type="number" id="quantity" name="quantity" value="1" min="1" max="100">
                 <button type="submit" class="btn btn-outline-success">Add to Cart</button>
             </form>
-    
-        
-        
+
+
+
         <div class="guide">
             <div class="guarantee">
                 <h3>100% Satisfaction Guarantee</h3>
@@ -263,7 +263,7 @@
             var selectElement = document.getElementById('size-select-' + photoId);
             var selectedOption = selectElement.options[selectElement.selectedIndex];
             var selectedPrice = selectedOption.value;
-            
+
             var selectedPriceId = selectedOption.getAttribute('data-price-id');
 
             var priceElement = document.getElementById('photo-price-' + photoId);
@@ -300,7 +300,7 @@
             })
             .then(data => {
                 alert('Photo added successfully!');
-                location.reload(); 
+                location.reload();
             })
             .catch(error => console.error('Error:', error));
         });

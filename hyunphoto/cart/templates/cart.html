@@ -192,7 +192,7 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'user-profile' %}">Hello, {{ user.username }}!
             {% else %}
-                <a href="{% url 'user' %}">Login</a>
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
     </header>
@@ -231,7 +231,7 @@
                 </div>
             {% endfor %}
             </div>
-            
+
             <div class="total">
                 <p>Total Quantity: {{ total.total_quantity }} pcs</p>
                 <p>Total Price: ${{ total.total_price }}</p>
@@ -266,7 +266,7 @@
             var form = document.getElementById('cart-form-' + cartItemId);
             var formData = new FormData(form);
             var csrfToken = formData.get('csrfmiddlewaretoken');
-            var url = "{% url 'cart' %}"      
+            var url = "{% url 'cart' %}"
             var quantity = updateQuantities[cartItemId]
 
             fetch(url, {
@@ -299,6 +299,6 @@
             });
             }
     </script>
-    
+
 </body>
 </html>
