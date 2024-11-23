@@ -10,6 +10,9 @@ class Cart(models.Model):
 
     class Meta:
         db_table = 'cart'
+        # indexes = [
+        #     models.Index(fields=['user', 'photo', 'price']),
+        # ]
 
     def __str__(self):
         return f"{self.user} - {self.photo} - {self.quantity} pcs"
