@@ -61,11 +61,11 @@ class GoogleCallbackView(APIView):
         return render(request, 'home.html', {'message': 'Signed in successfully!'})
 
 
-# class UserLogoutView(APIView):
-#     permission_classes = [IsAuthenticated]
-#     def get(self, request):
-#         logout(request)
-#         return redirect('/')
+class UserLogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        logout(request)
+        return redirect('/')
 
 
 class UserProfileView(APIView):
@@ -129,5 +129,5 @@ class UserDeleteView(APIView):
 userdeleteview = UserDeleteView.as_view()
 usersigninview = UserSigninview.as_view()
 googlecallbackview = GoogleCallbackView.as_view()
-# userlogoutview = UserLogoutView.as_view()
+userlogoutview = UserLogoutView.as_view()
 userprofileview = UserProfileView.as_view()

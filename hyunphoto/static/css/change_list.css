@@ -1,0 +1,27 @@
+.spreadsheet-controls-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    padding: 1rem;
+    margin-right: 1rem;
+    /* border-bottom: 1px solid #e0e0e0; */
+}
+
+.button button--primary button--blue {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.button button--primary button--blue:hover {
+    background-color: #0056b3;
+}
+
+.handsontable THEAD TH.color1 {
+    background: #FF6138;
+    border-color: #D4441F;
+  }
+
+.ast {
+  color: red;
+}
